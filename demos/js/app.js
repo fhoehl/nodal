@@ -144,27 +144,28 @@ App.ui.handlers = {};
 App.ui.handlers.documentMouseDownMoveHandler = function(event) {
     var ux = event.clientX,
         uy = event.clientY,
-        deltaX = - App.ui.originX + ux,
-        deltaY = - App.ui.originY + uy,
+        friction = 0.02;
+        deltaX = (- App.ui.originX + ux) * friction,
+        deltaY = (- App.ui.originY + uy) * friction,
         canvasEl = document.getElementById("nodal-editor"),
         mX = parseFloat(canvasEl.style.width, 10),
-        nX= Math.max(window.innerWidth, (mX + deltaX / canvasEl.offsetWidth)),
+        nX= Math.max(window.innerWidth, (mX + deltaX)),
         mY = parseFloat(canvasEl.style.height, 10),
-        nY = Math.max(window.innerHeight, (mY + deltaY / canvasEl.offsetHeight));
+        nY = Math.max(window.innerHeight, (mY + deltaY));
 
-    var nnX = mX + deltaX / canvasEl.offsetWidth,
-        nnY = mY + deltaY / canvasEl.offsetHeight;
+    var nnX = mX + deltaX,
+        nnY = mY + deltaY;
 
     console.log(mY, deltaY, canvasEl.offsetHeight);
 
-    canvasEl.style.width = nnX + "px";
-    canvasEl.style.height = nnY + "px";
+    canvasEl.style.width = nX + "px";
+    canvasEl.style.height = nY + "px";
 
     window.scroll(window.scrollX + deltaX, window.scrollY + deltaY);
 };
 
 App.ui.handlers.documentMouseDownHandler = function(event) {
-    if (event.target, event.currentTarget) {
+    if (event.target == event.currentTarget) {
         event.preventDefault();
         event.stopPropagation();
         event.target.style.cursor = "move";
@@ -194,6 +195,6 @@ App.ui.handlers.register = function() {
     window.addEventListener("resize", resizeHandler, false);
     resizeHandler();
 
-    targetEl.addEventListener("mousedown", App.ui.handlers.documentMouseDownHandler, false);
+    targetEl.addEventListener("mousedown", App.ui.handlers.documentMouseDownHandler);
 };
 

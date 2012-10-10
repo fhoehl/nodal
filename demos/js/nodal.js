@@ -322,7 +322,7 @@ nodal.view.VertexView = move.Object({
         title.className = "label";
         title.appendChild(document.createTextNode(model.props.name));
         
-        title.addEventListener("mousedown", this.startDrag.bind(this), true);
+        title.addEventListener("mousedown", this.startDrag.bind(this));
         
         content.appendChild(title);
 
@@ -343,8 +343,10 @@ nodal.view.VertexView = move.Object({
             $(":input[nd-output]", ui.parent()).each(function(index, element) {
                 var outputIndex = element.getAttribute("nd-output");
                 
-                $(element).on("change", function(event) {
-
+                element.addEventListener("change", function(event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    
                     //Updating the model.
                     cls.model.outSockets[outputIndex].data = $(element).val();
                     
@@ -362,7 +364,10 @@ nodal.view.VertexView = move.Object({
             $(":input[nd-prop]", ui.parent()).each(function(index, element) {
                 var propName = element.getAttribute("nd-prop");
                 
-                $(element).on("change", function(event) {
+                element.addEventListener("change", function(event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+
                     cls.model.props[propName] = event.target.value;
                     
                     cls.trigger("node-prop-change", {
@@ -430,6 +435,8 @@ nodal.view.VertexView = move.Object({
         if (!event.target.classList.contains("label")) {
             return;
         }
+        
+        event.stopPropagation();
 
         var x = event.clientX + window.scrollX,
             y = event.clientY + window.scrollY;
@@ -620,10 +627,10 @@ nodal.view.GraphView = move.Object({
             }
 
             var srcAnchorEl = $(event.srcAnchorEl),
-                x1 = srcAnchorEl.offset().left + 12,
-                y1 = srcAnchorEl.offset().top + 12,
-                x2 = event.mouseEvent.clientX + window.scrollX,
-                y2 = event.mouseEvent.clientY + window.scrollY;
+                x1 = srcAnchorEl.offset().left + 12 - $("#nodal-editor").offset().left,
+                y1 = srcAnchorEl.offset().top + 12 - $("#nodal-editor").offset().top,
+                x2 = event.mouseEvent.clientX + window.scrollX - $("#nodal-editor").offset().left,
+                y2 = event.mouseEvent.clientY + window.scrollY - $("#nodal-editor").offset().top;
 
             this.anchorDragEdgeEl.setAttributeNS(null, "x1", x1);
             this.anchorDragEdgeEl.setAttributeNS(null, "y1", y1);
