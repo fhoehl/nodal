@@ -1,0 +1,26 @@
+{
+    "graph": {"name": "demo"},
+    "vertices": [
+        {"name":"Integer","className":"math integer","_id":0,"_type":"math-integer",
+         "inputs": [],
+         "outputs": [{"name": "value"}]
+        },
+        {"name":"Integer","className":"math integer","_id":1,"_type":"math-integer",
+         "inputs": [],
+         "outputs": [{"name": "value"}]
+        },
+        {"name":"Operator","className":"math operator","_id":2,"_type":"math-operator",
+         "inputs": [{"name": "Number"}, {"name": "Number"}],
+         "outputs": [{"name": "Number"}]
+        },
+        {"name":"Text viewer","className":"viewer","_id":3,"_type":"viewer-text",
+         "inputs": [{"name": "Object"}],
+         "outputs": []
+        }
+    ],
+    "edges": [
+        {"weight":0.5,"_id":7,"_type":"edge","_outV":"2:0","_inV":"0:0","_label":"knows"},
+        {"weight":0.5,"_id":7,"_type":"edge","_outV":"2:1","_inV":"1:0","_label":"knows"},
+        {"weight":0.5,"_id":7,"_type":"edge","_outV":"3:0","_inV":"2:0","_label":"knows"}
+    ]
+}

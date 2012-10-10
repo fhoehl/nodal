@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Nodal demos</title>
+        <link rel="stylesheet" href="css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="css/app.css"/>
+        <link rel="stylesheet" href="css/nodal.css"/>
+    </head>
+    <body>
+
+        <div id="ui-top-menu" class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container-fluid">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">...</a>
+                    <a class="brand" href="/">Demos</a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Math<b class="caret"></b></a>
+                                <ul id="maths" class="dropdown-menu">
+                                    <li><a data-action="math-integer" href="#">Integer</a></li>
+                                    <li><a data-action="math-float" href="#">Float</a></li>
+                                    <li class="divider" href="#"></li>
+                                    <li><a data-action="math-operator" href="">Operator</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Viewer<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a data-action="viewer-text" href="#">Text</a></li>
+                                </ul>
+                            </li>
+                            <li class="divider-vertical"></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div id="nodal-editor" class="nodal-graph"></div>
+            </div>
+        </div>
+
+        
+        <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script>
+            App = {
+                ui: {}
+            };
+            this.exports = App;
+        </script>
+        <script src="js/nodal.js"></script>
+        <script src="js/app.js"></script>
+        
+        <!-- Node templates -->
+
+        <script id="math-integer" type="text/template">
+            <input type="number" nd-output="0" value="0">
+        </script>
+        
+        <script id="math-operator" type="text/template">
+            <select nd-prop="operatorType">
+                <option value="add">Add</option>
+                <option value="subtract">Subtract</option>
+                <option value="divide">Divide</option>
+                <option value="multiply">Multiply</option>
+            <select>
+        </script>
+        
+        <script id="viewer-text" type="text/template">
+            <textarea rows="5" cols="40" nd-input="0"></textarea>
+        </script>
+
+    </body>
+</html>
