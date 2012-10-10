@@ -148,27 +148,31 @@ App.ui.handlers.documentMouseDownMoveHandler = function(event) {
         deltaY = - App.ui.originY + uy,
         canvasEl = document.getElementById("nodal-editor"),
         mX = parseFloat(canvasEl.style.width, 10),
-        nX= Math.max(100, (mX + deltaX / canvasEl.offsetWidth)),
+        nX= Math.max(window.innerWidth, (mX + deltaX / canvasEl.offsetWidth)),
         mY = parseFloat(canvasEl.style.height, 10),
-        nY = Math.max(100, (mY + deltaY / canvasEl.offsetHeight));
+        nY = Math.max(window.innerHeight, (mY + deltaY / canvasEl.offsetHeight));
+
+    var nnX = mX + deltaX / canvasEl.offsetWidth,
+        nnY = mY + deltaY / canvasEl.offsetHeight;
 
     console.log(mY, deltaY, canvasEl.offsetHeight);
 
-    canvasEl.style.width = nX + "%";
-    canvasEl.style.height = nY + "%";
+    canvasEl.style.width = nnX + "px";
+    canvasEl.style.height = nnY + "px";
 
     window.scroll(window.scrollX + deltaX, window.scrollY + deltaY);
 };
 
 App.ui.handlers.documentMouseDownHandler = function(event) {
-    console.log(event.target, event.currentTarget);
-    event.preventDefault();
-    event.stopPropagation();
-    event.target.style.cursor = "move";
-    document.addEventListener("mouseup", App.ui.handlers.documentMouseUpHandler, false);
-    App.ui.originX = event.clientX;
-    App.ui.originY = event.clientY;
-    App.ui.targetEl.addEventListener("mousemove", App.ui.handlers.documentMouseDownMoveHandler, true);
+    if (event.target, event.currentTarget) {
+        event.preventDefault();
+        event.stopPropagation();
+        event.target.style.cursor = "move";
+        document.addEventListener("mouseup", App.ui.handlers.documentMouseUpHandler, false);
+        App.ui.originX = event.clientX;
+        App.ui.originY = event.clientY;
+        App.ui.targetEl.addEventListener("mousemove", App.ui.handlers.documentMouseDownMoveHandler, true);
+    }
 };
 
 App.ui.handlers.documentMouseUpHandler = function(event) {
@@ -190,6 +194,6 @@ App.ui.handlers.register = function() {
     window.addEventListener("resize", resizeHandler, false);
     resizeHandler();
 
-    //targetEl.addEventListener("mousedown", App.ui.handlers.documentMouseDownHandler, true);
+    targetEl.addEventListener("mousedown", App.ui.handlers.documentMouseDownHandler, false);
 };
 

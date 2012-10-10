@@ -427,7 +427,6 @@ nodal.view.VertexView = move.Object({
     },
 
     startDrag: function(event) {
-        console.log(event.target, event.currentTarget, event.target.parentNode);
         if (!event.target.classList.contains("label")) {
             return;
         }
@@ -454,8 +453,8 @@ nodal.view.VertexView = move.Object({
         var x = event.clientX + window.scrollX,
             y = event.clientY + window.scrollY;
         
-        this.el.style.left = (this.elStartLeft + x - this.cursorStartX) + "px";
-        this.el.style.top = (this.elStartTop + y - this.cursorStartY) + "px";
+        this.el.style.left = Math.max(0, (this.elStartLeft + x - this.cursorStartX)) + "px";
+        this.el.style.top = Math.max(0, (this.elStartTop + y - this.cursorStartY)) + "px";
         
         event.preventDefault();
         event.stopPropagation();
@@ -602,11 +601,11 @@ nodal.view.GraphView = move.Object({
             var v = event.vertex;
             this.linksViews.forEach(function(linkView) {
                 if (linkView.src == v || linkView.dst == v) {
-                    var x1 = $(linkView.srcAnchorEl).offset().left + 12,
-                        y1 = $(linkView.srcAnchorEl).offset().top + 12,
-                        x2 = $(linkView.dstAnchorEl).offset().left + 12,
-                        y2 = $(linkView.dstAnchorEl).offset().top + 12;
-
+                    var x1 = $(linkView.srcAnchorEl).offset().left + 12 - $("#nodal-editor").offset().left,
+                        y1 = $(linkView.srcAnchorEl).offset().top + 12 - $("#nodal-editor").offset().top,
+                        x2 = $(linkView.dstAnchorEl).offset().left + 12 - $("#nodal-editor").offset().left,
+                        y2 = $(linkView.dstAnchorEl).offset().top + 12 - $("#nodal-editor").offset().top;
+                    
                     linkView.render(x1, y1, x2, y2);
                 }
             }, this);
